@@ -18,6 +18,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    env_file:
+      - .env
 
   minio:
     build:
@@ -76,7 +78,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)\"",
+          'python -c "import urllib.request; urllib.request.urlopen(''http://localhost:8000/health'', timeout=2)"',
         ]
       interval: 10s
       timeout: 5s
