@@ -10,6 +10,10 @@ class Settings(BaseSettings):
     bot_token: str = ""
     admin_ids: str = ""  # telegram id админов через запятую
 
+    # Telegram Mini App
+    webapp_url: str = ""  # публичный HTTPS-URL фронтенда (Telegram требует https)
+    webapp_dev: bool = False  # не проверять подпись initData (локальная разработка)
+
     # MinIO
     minio_endpoint: str = "localhost:9000"
     minio_access_key: str = "minioadmin"

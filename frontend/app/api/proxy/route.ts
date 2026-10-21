@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const MINIO_URL = process.env.MINIO_PUBLIC_URL ?? "http://minio:9000"
 
@@ -19,11 +19,11 @@ export async function GET(request: NextRequest) {
 
         const headers = new Headers(res.headers);
         // Важно: Content-Type и Content-Length нужно обязательно пробросить
-        return new NextResponse(res.body as any, {
+        return new NextResponse(res.body, {
             status: res.status,
             headers,
         });
-    } catch (e) {
+    } catch {
         return NextResponse.json({ error: 'Proxy failed' }, { status: 502 });
     }
 }

@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { TelegramHeader } from "@/components/telegram-header";
 import { getProducts } from "@/lib/api";
 import { toInternalSrc } from "@/lib/images";
 
@@ -8,7 +9,9 @@ export default async function Home() {
   const products = await getProducts();
 
   return (
-    <main className="mx-auto w-full max-w-3xl flex-1 p-6">
+    <main className="mx-auto w-full max-w-3xl flex-1 p-6 tg-safe-bottom">
+      <TelegramHeader />
+
       <h1 className="mb-6 text-2xl font-bold">Каталог товаров</h1>
 
       {products.length === 0 ? (
@@ -18,7 +21,7 @@ export default async function Home() {
           {products.map((product) => (
             <li
               key={product.id}
-              className="flex items-center gap-4 rounded-lg border border-neutral-200 p-4"
+              className="flex items-center gap-4 rounded-lg border border-[var(--border)] p-4"
             >
               <Image
                 src={toInternalSrc(product.photo_url)}
@@ -29,7 +32,7 @@ export default async function Home() {
               />
               <div>
                 <p className="font-medium">{product.name}</p>
-                <p className="text-sm text-neutral-500">{product.id}</p>
+                <p className="text-sm text-[var(--muted)]">{product.id}</p>
               </div>
             </li>
           ))}
