@@ -48,3 +48,9 @@ uv run alembic upgrade head
 ```
 
 DATABASE_URL задаётся в `backend/.env` (см. `.env.example`).
+
+## Разработка
+
+```bash
+docker compose -f compose.dev.yml up
+```

@@ -1,6 +1,7 @@
 import asyncio
 import logging
 from contextlib import asynccontextmanager, suppress
+from typing import Annotated
 
 from fastapi import Depends, FastAPI
 from sqlalchemy import text
@@ -9,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.bot.main import create_bot, create_dispatcher
 from app.config import settings
 from app.db import get_session
+from app.product_router import router as product_router
 from app.storage import ensure_bucket
 
 logger = logging.getLogger(__name__)
@@ -67,6 +69,11 @@ app = FastAPI(title="test-catalog", lifespan=lifespan)
 
 
 @app.get("/health")
-async def health(session: AsyncSession = Depends(get_session)) -> dict[str, str]:
+async def health(
+    session: Annotated[AsyncSession, Depends(get_session)],
+) -> dict[str, str]:
     await session.execute(text("SELECT 1"))
     return {"status": "ok"}
+
+
+app.include_router(product_router, prefix="/product")
