@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from pydantic import UUID4, AnyHttpUrl, BaseModel, ConfigDict, Field
+from pydantic import UUID4, BaseModel, ConfigDict, Field
 
 
 class Product(BaseModel):
@@ -8,7 +8,10 @@ class Product(BaseModel):
 
     id: UUID4
     name: Annotated[str, Field(..., description="Название товара")]
-    photo_url: AnyHttpUrl
+    photo_url: Annotated[
+        str,
+        Field(pattern=r"^(https?://\S+|/\S+)$"),
+    ]
 
 
 class ProductList(BaseModel):

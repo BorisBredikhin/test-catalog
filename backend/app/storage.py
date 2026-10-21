@@ -1,10 +1,10 @@
 import asyncio
 import io
+import json
 import uuid
 
-from minio import Minio
-
 from app.config import settings
+from minio import Minio
 
 
 def _client() -> Minio:
@@ -16,11 +16,30 @@ def _client() -> Minio:
     )
 
 
+def _public_read_policy(bucket: str) -> str:
+    return json.dumps(
+        {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {"AWS": ["*"]},
+                    "Action": ["s3:GetObject"],
+                    "Resource": [f"arn:aws:s3:::{bucket}/*"],
+                }
+            ],
+        }
+    )
+
+
 async def ensure_bucket() -> None:
     def _ensure() -> None:
         client = _client()
         if not client.bucket_exists(settings.minio_bucket):
             client.make_bucket(settings.minio_bucket)
+        client.set_bucket_policy(
+            settings.minio_bucket, _public_read_policy(settings.minio_bucket)
+        )
 
     await asyncio.to_thread(_ensure)
 
