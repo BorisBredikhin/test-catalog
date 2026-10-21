@@ -19,8 +19,17 @@ class Settings(BaseSettings):
     minio_secure: bool = False
 
     @property
-    def admin_id_set(self) -> list[str]:
-        return self.admin_ids.split(",")
+    def admin_id_set(self) -> set[int]:
+        ids: set[int] = set()
+        for raw in self.admin_ids.split(","):
+            raw = raw.strip()
+            if not raw:
+                continue
+            try:
+                ids.add(int(raw))
+            except ValueError:
+                continue
+        return ids
 
 
 settings = Settings()

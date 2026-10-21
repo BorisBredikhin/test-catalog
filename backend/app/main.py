@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 from contextlib import asynccontextmanager, suppress
 from typing import Annotated
 
@@ -12,6 +13,11 @@ from app.config import settings
 from app.db import get_session
 from app.product_router import router as product_router
 from app.storage import ensure_bucket
+
+logging.basicConfig(
+    level=os.getenv("LOG_LEVEL", "INFO").upper(),
+    format="%(asctime)s %(levelname)-8s %(name)s %(message)s",
+)
 
 logger = logging.getLogger(__name__)
 

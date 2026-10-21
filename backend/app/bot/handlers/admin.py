@@ -48,8 +48,8 @@ async def add_product_photo(
         )
         return
 
-    if message.photo is None or len(message.photo) != 1:
-        await message.answer("Должно быть приложено ровно одно фото")
+    if message.photo is None:
+        await message.answer("Должно быть приложено одно фото")
         return
 
     assert message.bot, "Бот недоступен"

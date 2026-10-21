@@ -74,8 +74,7 @@ services:
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin
       MINIO_BUCKET: catalog
-      # URL, по которому фото доступны снаружи (с хоста)
-      MINIO_PUBLIC_URL: http://localhost:9000
+      MINIO_PUBLIC_URL: /
     ports:
       - "8000:8000"
     depends_on:
@@ -93,7 +92,18 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
-
+  frontend:
+    build:
+      context: frontend
+    environment:
+      NODE_ENV: production
+      BACKEND_URL: http://backend:8000
+      MINIO_PUBLIC_URL: http://minio:9000
+    ports:
+      - 3000:3000
+    depends_on:
+      backend:
+        condition: service_healthy
 volumes:
   pgdata:
   minio_data:
