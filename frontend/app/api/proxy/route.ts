@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 
-const MINIO_PUBLIC_URL = process.env.MINIO_PUBLIC_URL ?? "http://minio:9000"
+const MINIO_URL = process.env.MINIO_PUBLIC_URL ?? "http://minio:9000"
 
 export async function GET(request: NextRequest) {
     const path = request.nextUrl.pathname.replace('/api/minio', ''); // убираем префикс маршрута

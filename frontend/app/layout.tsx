@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "test-catalog",
+  title: "Каталог",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
